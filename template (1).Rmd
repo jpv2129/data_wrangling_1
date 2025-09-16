@@ -97,10 +97,19 @@ pulse_df =
 
 Does not print as nicely.
 
+read_csv is better than read.csv
+
 ```{r, eval = FALSE}
 litters_df_base =
   read.csv("data_import_examples/FAS_litters.csv")
 ```
+
+## What about exporting a dataset??
+
+```{r}
+write_csv(fotr_df, "data_import_examples/fotr_df.csv")
+```
+write_csv(datasetname, "where want to save")
 
 
 
