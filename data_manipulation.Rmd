@@ -1,0 +1,89 @@
+---
+title: "data_manipulation"
+output: github_document
+date: "2025-09-18"
+---
+
+```{r}
+library(tidyverse)
+```
+
+Let's import the datasets
+
+```{r}
+litters_df =
+  read_csv("data_import_examples/FAS_litters.csv", na = c("NA", ".", ""))
+litters_df = 
+    janitor::clean_names(litters_df)
+
+pups_df = 
+    read_csv("data_import_examples/FAS_pups.csv", na = c("NA", "."), skip = 3)
+pups_df = 
+    janitor::clean_names(pups_df)
+```
+
+##'Select'
+
+'Select' selects variables from my dataframe
+
+generates new dataset with just those variables
+```{r}
+select(litters_df, group, litter_number, gd0_weight)
+```
+
+select a range
+```{r}
+select(litters_df, group:gd_of_birth)
+```
+colon above says keep this variable through this variable
+
+select by removal
+```{r}
+select(litters_df, -group)
+select(litters_df, -(group:gd_of_birth))
+```
+
+select by prefix
+keep group and any var that starts with gd
+```{r}
+select(litters_df, group, starts_with("gd"))
+```
+
+rerrange by selection
+if pair with everything fucntion, keeps litter number and everything else
+relocate does same as everything function
+```{r}
+select(litters_df, starts_with("gd"), group)
+select(litters_df, litter_number, everything())
+
+relocate(litters_df, litter_number)
+```
+
+rename by selecting
+```{r}
+select(litters_df, GROUP=group, everything())
+rename(litters_df, GROUP=group)
+```
+
+what if I only select one variable...?
+select keeps it in its respective column
+
+almost never use it, just pulls obs from var
+```{r}
+select(litters_df, group)
+
+pull(litters_df, group)
+```
+
+learning assessment
+```{r}
+select(pups_df, litter_number, sex, pd_ears)
+```
+
+
+
+
+
+
+
+
