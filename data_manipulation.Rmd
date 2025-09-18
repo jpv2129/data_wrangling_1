@@ -119,6 +119,75 @@ filter(pups_df, sex==1)
 filter(pups_df, pd_walk < 11, sex==2)
 ```
 
+##'mutate'
+
+use mutate() to create or modify variables.
+
+```{r}
+mutate(
+  litters_df,
+  wt_gain = gd18_weight - gd0_weight,
+  group = str_to_lower(group)
+)
+```
+
+## 'arrange'
+
+arrange() arranges things
+
+```{r}
+arrange(litters_df, pups_born_alive)
+arrange(litters_df, group, pups_born_alive)
+
+arrange(litters_df, gd0_weight)
+```
+
+
+## PIPES
+
+Pipe operator starts to pull stuff together
+
+Piping solves this problem. It allows you to turn the nested approach into a sequential chain by passing the result of one function call as an argument to the next function call:
+
+"command shift m" gives pipe operator
+|> means AND THEN...
+assumes that whatever comes out of pipe then goes into the next automatically; already knows which dataframe to use
+
+below, reads csv and then cleans names and then selects
+```{r}
+litters_df = 
+  read_csv("data_import_examples/FAS_litters.csv", na = c("NA", ".", "")) |>  #and then clean
+  janitor::clean_names() |> #and then select variables
+  select(group, litter_number, starts_with("gd")) |> #and then drop missing values
+  drop_na() |> #and then create new var weight gain
+  mutate(
+    wt_gain = gd18_weight - gd0_weight,
+   )
+view(litters_df)
+```
+
+learning assessment:
+import and tidy the pups data in a piped chain of commands
+```{r}
+pups_df =
+  read_csv("data_import_examples/FAS_pups.csv", na = c("NA", ".", ""), skip=3) |>
+  janitor::clean_names() |> 
+  filter(sex==1) |> 
+  select(-pd_ears) |> 
+  mutate(
+    Pd_pivot_ge7 = pd_pivot >= 7
+  )
+
+view(pups_df)
+  
+```
+
+
+
+
+
+
+
 
 
 
